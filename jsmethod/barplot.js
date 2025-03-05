@@ -31,7 +31,7 @@ const files = [
       const processedData = Array.from(groupedData, ([B, median]) => ({ B, median }));
       
       // Create a container for the chart
-      const container = d3.select("body")
+      const container = d3.select("#barPlotContainer")
         .append("div")
         .attr("class", "chart-container");
       
@@ -55,7 +55,8 @@ const files = [
         .attr("y", 55)
         .attr("text-anchor", "middle")
         .style("font-size", "14px")
-        .text("Probability that Gpt3.5 Said Yes vs Race");
+        .text("Mean Probability that Gpt3.5 Said Yes vs Race");
+
       const svg = svgcontainer.append("g")
       .attr("transform", `translate(${margin.left},${margin.top})`);
       // Create scales
@@ -130,29 +131,32 @@ const files = [
     const processedData = Array.from(groupedData, ([B, mean]) => ({ B, mean }));
 
     // Create the SVG container for the combined chart
-    const svgContainer = d3.select("#combinedChart")
+    const svgContainer = d3.select("#barPlotContainer")
+    .append("div")
+    .attr("class", "chart-container");
+    const svgCombined = svgContainer.append("svg")
     .attr("width", width + margin.left + margin.right)
     .attr("height", height + margin.top + margin.bottom);
 
     // Add the title
-    svgContainer.append("text")
+    svgCombined.append("text")
       .attr("x", (width + margin.left + margin.right) / 2)
       .attr("y", 30)
       .attr("text-anchor", "middle")
       .style("font-size", "20px")
       .style("font-weight", "bold")
-      .text("Combined Data Bar Plot Title");
+      .text("Combined Response From Gpt3.5");
 
     // Add the subtitle
-    svgContainer.append("text")
+    svgCombined.append("text")
       .attr("x", (width + margin.left + margin.right) / 2)
       .attr("y", 55)
       .attr("text-anchor", "middle")
       .style("font-size", "14px")
-      .text("Subtitle describing the plot or dataset");
+      .text("Mean Probability that Gpt3.5 Said Yes vs. Race");
 
     // Append the chart group with a translation to account for margins and title space
-    const svg = svgContainer.append("g")
+    const svg = svgCombined.append("g")
       .attr("transform", `translate(${margin.left},${margin.top})`);
     // Set up scales
     const xScale = d3.scaleBand()

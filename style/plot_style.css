@@ -1,0 +1,10 @@
+.charts-container {
+    display: flex;
+    justify-content: space-around; /* Space them evenly */
+    align-items: flex-start; /* Align items at the top */
+    margin: 20px;
+  }
+  .chart {
+    border: 1px solid #ccc;
+    padding: 10px;
+  }

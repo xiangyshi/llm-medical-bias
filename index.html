@@ -4,10 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Title</title>
-    <script src="./jsmethod/plots.js" type="module" defer></script>
+    <script src="./jsmethod/barplot.js" type="module" defer></script>
+    <script src="./jsmethod/scatterplot.js" type="module" defer></script>
+    <link rel="stylesheet" href="style/plot_style.css">
 </head>
 <body>
-    <h1>Title</h1>
-    <svg id = "combinedChart"></svg>
+    <h1>Exploratory Graphs</h1>
+    
+    <div class="charts-container">
+        <!-- Bar Plot Container -->
+        <div class="chart" id="barPlotContainer"></div>
+        
+    <!-- Scatter Plot Container -->
+        <div class="chart" id="scatterPlotContainer"></div>
+    </div>
 </body>
 </html>
