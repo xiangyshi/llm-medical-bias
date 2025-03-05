@@ -14,7 +14,7 @@ const margin = { top: 120, right: 30, bottom: 50, left: 60 },
       height = 400 - margin.top - margin.bottom;
 
 // Create a dropdown menu
-const dropdown = d3.select("#individualDrop")
+const dropdown = d3.select("#barIndividualDrop")
     .append("select")
     .attr("id", "fileSelector")
     .on("change", function() {
@@ -30,7 +30,7 @@ dropdown.selectAll("option")
     .text(d => formatTitle(d));
 
 // Create an SVG container
-const svgContainer = d3.select("#individualChart")
+const svgContainer = d3.select("#barIndividualChart")
     .attr("width", width + margin.left + margin.right)
     .attr("height", height + margin.top + margin.bottom);
 
@@ -176,7 +176,7 @@ function updateChart(file) {
 updateChart(files[0]);
 
 // Create an SVG container for the summary chart
-const summarySvg = d3.select("#combinedChart")
+const summarySvg = d3.select("#barSummaryChart")
     .attr("width", width + margin.left + margin.right)
     .attr("height", height + margin.top + margin.bottom)
     .append("g")
@@ -317,4 +317,3 @@ async function createSummaryPlot() {
 
 // Call the function to create the summary plot
 createSummaryPlot();
-

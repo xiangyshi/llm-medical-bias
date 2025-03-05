@@ -5,13 +5,50 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AI's Hidden Uncertainty</title>
+    <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="response.css">
+    <script src="./jsmethod/barplot.js" type="module" defer></script>
+    <script src="./jsmethod/scatterplot.js" type="module" defer></script>
     <script src="https://d3js.org/d3.v7.min.js"></script>
 </head>
 
 <body>
 
     <body>
+        <h1>Response Overview</h1>
+        <!-- Container for all charts -->
+        <div class="chart-container">
+
+            <!-- First Row: Barplots -->
+            <div class="row" style="display: flex; justify-content: space-between;">
+                <!-- Summary Barplot -->
+                <div class="chart" style="flex: 1; padding: 10px;">
+                    <svg id="barSummaryChart"></svg>
+                    <div id="barSummaryDrop"></div>
+                </div>
+                <!-- Individual Barplot -->
+                <div class="chart" style="flex: 1; padding: 10px;">
+                    <svg id="barIndividualChart"></svg>
+                    <div id="barIndividualDrop"></div>
+                </div>
+            </div>
+
+            <!-- Second Row: Scatter Plots -->
+            <div class="row" style="display: flex; justify-content: space-between; margin-top: 20px;">
+                <!-- Summary Scatter Plot -->
+                <div class="chart" style="flex: 1; padding: 10px;">
+                    <svg id="scatterSummaryChart"></svg>
+                    <div id="scatterSummaryDrop"></div>
+                </div>
+                <!-- Individual Scatter Plot -->
+                <div class="chart" style="flex: 1; padding: 10px;">
+                    <svg id="scatterIndividualChart"></svg>
+                    <div id="scatterIndividualDrop"></div>
+                </div>
+            </div>
+
+        </div>
+
         <div class="container">
             <h1>🛑 AI’s Uncertainty in Medicine: Confidence for Some, Hesitation for Others</h1>
             <span class="tooltip">Confidence<span class="tooltiptext">AI assigns a high probability to a decision.</span></span>  

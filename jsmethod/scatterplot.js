@@ -1,159 +1,235 @@
 import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7.9.0/+esm";
+
 const files = [
     "data/acute_cancer_responses.csv",
     "data/acute_non_cancer_responses.csv",
     "data/chronic_cancer_responses.csv",
     "data/chronic_non_cancer_responses.csv",
     "data/post_op_responses.csv"
-  ];
-  
-  // Set up dimensions for the charts
-  const margin = {top: 120, right: 30, bottom: 50, left: 60},
-        width = 600 - margin.left - margin.right,
-        height = 400 - margin.top - margin.bottom;
+];
 
-//Scatter Plot
+// Set up dimensions
+const margin = { top: 120, right: 30, bottom: 50, left: 60 },
+      width = 600 - margin.left - margin.right,
+      height = 400 - margin.top - margin.bottom;
 
-  function drawScatterPlot(svgElement, rawData) {
-    // Create an x-scale: use a band scale for categorical data (races)
-    // Ensure the domain contains unique races from the data
-    const xScale = d3.scaleBand()
-      .domain(Array.from(new Set(rawData.map(d => d.race))))
-      .range([0, width])
-      .padding(0.3);
+// Create a dropdown menu
+const dropdown = d3.select("#scatterIndividualDrop")
+    .append("select")
+    .attr("id", "fileSelector")
+    .on("change", function() {
+        updateChart(this.value);
+    });
 
-    // Create a y-scale for the numeric values
-    const yScale = d3.scaleLinear()
-      .domain([0, d3.max(rawData, d => d["prob_gpt3.5_high"])])
-      .nice()
-      .range([height, 0]);
+// Populate dropdown options
+dropdown.selectAll("option")
+    .data(files)
+    .enter()
+    .append("option")
+    .attr("value", d => d)
+    .text(d => formatTitle(d));
 
-    // Append a group for the chart content translated by the margins
-    const svg = svgElement.append("g")
-      .attr("transform", `translate(${margin.left},${margin.top})`);
+// Create an SVG container for the scatter plot
+const svgContainer = d3.select("#scatterIndividualChart")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom);
 
-    // Plot each data point as a circle; add a small random horizontal jitter
-    svg.selectAll("circle")
-      .data(rawData)
-      .enter()
-      .append("circle")
-      .attr("cx", d => {
-        // Calculate center of band and add jitter of up to ±(bandwidth/4)
-        return xScale(d.race) + xScale.bandwidth() / 2 + (Math.random() - 0.5) * (xScale.bandwidth() / 2);
-      })
-      .attr("cy", d => yScale(d["prob_gpt3.5_high"]))
-      .attr("r", 4)
-      .attr("fill", "tomato");
+// Function to format title
+function formatTitle(filename) {
+    return filename.split("/")[1].split("_").join(" ").split(".")[0]
+        .split(' ')
+        .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(' ');
+}
 
-    // Add the x-axis
-    svg.append("g")
-      .attr("transform", `translate(0, ${height})`)
-      .call(d3.axisBottom(xScale));
-
-    // Add the y-axis
-    svg.append("g")
-      .call(d3.axisLeft(yScale));
-
-    // Add x-axis label
-    svg.append("text")
-      .attr("x", width / 2)
-      .attr("y", height + 40)
-      .attr("text-anchor", "middle")
-      .text("Race");
-
-    // Add y-axis label
-    svg.append("text")
-      .attr("transform", "rotate(-90)")
-      .attr("x", -height/2)
-      .attr("y", -45)
-      .attr("text-anchor", "middle")
-      .text("Probability");
-  }
-
-  // ==========================
-  // 1. Individual File Scatter Plots
-  // ==========================
-  files.forEach(file => {
+// Function to update the scatter plot based on selected file
+function updateChart(file) {
     d3.csv(file).then(data => {
-      // Convert "prob_gpt3.5_yes" to a number using bracket notation
-      data.forEach(d => {
-        d["prob_gpt3.5_high"] = +d["prob_gpt3.5_high"];
-      });
+        // Clear previous chart
+        svgContainer.selectAll("*").remove();
 
-      // Create a container for this scatter plot and add a file title
-      const container = d3.select("#scatterPlotContainer")
-        .append("div")
-        .attr("class", "chart-container");
+        // Set the x and y scales (e.g., "race" and "gpt3.5_answer")
+        const xScale = d3.scaleBand()
+            .domain(data.map(d => d["race"]))
+            .range([0, width])
+            .padding(0.1);
 
-      // Append an SVG for the scatter plot
-      const svg = container.append("svg")
+        const yScale = d3.scaleLinear()
+            .domain([0, d3.max(data, d => parseFloat(d["prob_gpt3.5_yes"]))])
+            .nice()
+            .range([height, 0]);
+
+        // Add title
+        svgContainer.append("text")
+            .attr("x", (width + margin.left + margin.right) / 2)
+            .attr("y", 30)
+            .attr("class", "scatter-container")
+            .attr("text-anchor", "middle")
+            .style("font-size", "20px")
+            .style("font-weight", "bold")
+            .text(formatTitle(file));
+
+        // Subtitle
+        svgContainer.append("text")
+            .attr("x", (width + margin.left + margin.right) / 2)
+            .attr("y", 55)
+            .attr("text-anchor", "middle")
+            .style("font-size", "14px")
+            .text("Scatter Plot of Response Confidence by Race");
+
+        const svg = svgContainer.append("g")
+            .attr("transform", `translate(${margin.left},${margin.top})`);
+
+        // Scatter plot circles
+        svg.selectAll("circle")
+          .data(data)
+          .enter()
+          .append("circle")
+          .attr("cx", d => xScale(d["race"]) + xScale.bandwidth() / 2)
+          .attr("cy", d => yScale(d["prob_gpt3.5_yes"]))
+          .attr("r", 5)
+          .attr("fill", "steelblue");
+
+
+        // X-axis
+        svg.append("g")
+            .attr("transform", `translate(0,${height})`)
+            .call(d3.axisBottom(xScale));
+
+        // Y-axis
+        svg.append("g")
+            .call(d3.axisLeft(yScale));
+
+        // X-axis label
+        svg.append("text")
+            .attr("x", width / 2)
+            .attr("y", height + margin.bottom - 10)
+            .attr("text-anchor", "middle")
+            .text("Race");
+
+        // Y-axis label
+        svg.append("text")
+            .attr("transform", "rotate(-90)")
+            .attr("x", -height / 2)
+            .attr("y", -margin.left + 15)
+            .attr("text-anchor", "middle")
+            .text("Response Confidence");
+
+        // Legend
+        const legend = svgContainer.append("g")
+            .attr("transform", `translate(${width - 100}, ${margin.top - 50})`);
+
+        legend.selectAll("rect")
+            .data(["prob_gpt3.5_yes"])
+            .enter()
+            .append("rect")
+            .attr("x", 0)
+            .attr("y", 0)
+            .attr("width", 15)
+            .attr("height", 15)
+            .attr("fill", "steelblue");
+
+        legend.selectAll("text")
+            .data(["prob_gpt3.5_yes"])
+            .enter()
+            .append("text")
+            .attr("x", 20)
+            .attr("y", 12)
+            .text(d => "Response Confidence")
+            .style("font-size", "12px");
+
+    }).catch(error => {
+        console.error(`Error loading ${file}:`, error);
+    });
+}
+
+// Load the first dataset initially
+updateChart(files[0]);
+
+// Function to process the data for summary plot
+async function createSummaryPlot() {
+    let combinedData = {};
+
+    // Load and process each dataset
+    for (const file of files) {
+        const data = await d3.csv(file);
+
+        data.forEach(d => {
+            if (!combinedData[d["race"]]) {
+                combinedData[d["race"]] = { response_time: 0, count: 0 };
+            }
+            combinedData[d["race"]].response_time += parseFloat(d["prob_gpt3.5_yes"]);
+            combinedData[d["race"]].count += 1;
+        });
+    }
+
+    // Convert to an array for D3
+    const summaryData = Object.entries(combinedData).map(([race, values]) => ({
+        race,
+        avg_response_time: values.response_time / values.count
+    }));
+
+    // Create summary scatter plot
+    const summarySvg = d3.select("#scatterSummaryChart")
         .attr("width", width + margin.left + margin.right)
         .attr("height", height + margin.top + margin.bottom)
-        .style("overflow", "visible");  // Allow any overflow
-      svg.append("text")
-        .attr("x", (width + margin.left + margin.right) / 2)
-        .attr("y", 30)
+        .append("g")
+        .attr("transform", `translate(${margin.left},${margin.top})`);
+
+    const xScale = d3.scaleBand()
+        .domain(summaryData.map(d => d.race))
+        .range([0, width])
+        .padding(0.1);
+
+    const yScale = d3.scaleLinear()
+        .domain([0, d3.max(summaryData, d => d.avg_response_time)])
+        .nice()
+        .range([height, 0]);
+
+    // Title
+    summarySvg.append("text")
+        .attr("x", width / 2)
+        .attr("y", -90)
+        .attr("class", "scatter-container")
         .attr("text-anchor", "middle")
         .style("font-size", "20px")
         .style("font-weight", "bold")
-        .text(file)
-      svg.append("text")
-        .attr("x", (width + margin.left + margin.right) / 2)
-        .attr("y", 60)   // Adjust this value as needed
+        .text("Average Response Confidence Across All Race");
+
+    // Scatter plot circles in summary plot
+    summarySvg.selectAll("circle")
+        .data(summaryData)
+        .enter()
+        .append("circle")
+        .attr("cx", d => xScale(d.race) + xScale.bandwidth() / 2)
+        .attr("cy", d => yScale(d.avg_response_time))
+        .attr("r", 5)
+        .attr("fill", "steelblue");
+
+    // X-axis
+    summarySvg.append("g")
+        .attr("transform", `translate(0,${height})`)
+        .call(d3.axisBottom(xScale));
+
+    // Y-axis
+    summarySvg.append("g")
+        .call(d3.axisLeft(yScale));
+
+    // X-axis label
+    summarySvg.append("text")
+        .attr("x", width / 2)
+        .attr("y", height + margin.bottom - 10)
         .attr("text-anchor", "middle")
-        .style("font-size", "14px")
-        .text("Probability that Gpt3.5 Said High vs. Race");
-      // Draw the scatter plot
-      drawScatterPlot(svg, data);
-    })
-    .catch(error => {
-      console.error(`Error loading ${file}:`, error);
-    });
-  });
+        .text("Race");
 
-  // ==========================
-  // 2. Combined Scatter Plot
-  // ==========================
-  Promise.all(files.map(file => d3.csv(file)))
-    .then(dataArrays => {
-      // Merge all data arrays into one
-      const combinedData = dataArrays.flat();
-
-      // Convert "prob_gpt3.5_yes" to a number for all records
-      combinedData.forEach(d => {
-        d["prob_gpt3.5_high"] = +d["prob_gpt3.5_high"];
-      });
-
-      // Select the combined scatter plot SVG container and set dimensions
-      const svgCombined = d3.select("#scatterPlotContainer")
-      .append("div")
-        .attr("class", "chart-container");
-        // .attr("width", width + margin.left + margin.right)
-        // .attr("height", height + margin.top + margin.bottom)
-        // .style("overflow", "visible");  // Allow any overflow
-        const svg = svgCombined.append("svg")
-        .attr("width", width + margin.left + margin.right)
-        .attr("height", height + margin.top + margin.bottom)
-        .style("overflow", "visible");  // Allow any overflow
-      // Add title text
-      svg.append("text")
-        .attr("x", (width + margin.left + margin.right) / 2)
-        .attr("y", 30)   // Adjust this value as needed
+    // Y-axis label
+    summarySvg.append("text")
+        .attr("transform", "rotate(-90)")
+        .attr("x", -height / 2)
+        .attr("y", -margin.left + 15)
         .attr("text-anchor", "middle")
-        .style("font-size", "20px")
-        .style("font-weight", "bold")
-        .text("Combined Response From Gpt3.5");
+        .text("Average Response Confidence");
+}
 
-      // Add subtitle text
-      svg.append("text")
-        .attr("x", (width + margin.left + margin.right) / 2)
-        .attr("y", 60)   // Adjust this value as needed
-        .attr("text-anchor", "middle")
-        .style("font-size", "14px")
-        .text("Probability that Gpt3.5 Said High vs. Race");
-      // Draw the combined scatter plot
-      drawScatterPlot(svg, combinedData);
-    })
-    .catch(error => {
-      console.error("Error loading combined data:", error);
-    });
+// Call the function to create the summary plot
+createSummaryPlot();
