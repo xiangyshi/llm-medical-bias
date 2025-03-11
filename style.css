@@ -48,6 +48,10 @@
 svg {
     display: block;
     max-width: 100%;
+    
+    image {
+        align-self: center;
+    }
 }
 
 /* Title styling */
