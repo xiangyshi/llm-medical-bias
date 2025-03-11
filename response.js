@@ -18,7 +18,7 @@ d3.csv("data/response.csv").then(data => {
             "race": "🌎 Select a racial group to see AI's decision patterns.",
             "gender": "⚧️ Select a gender to explore AI's uncertainty."
         };
-    
+
         d3.select(".tooltip")
             .style("display", "block")
             .html(tooltipText[this.id])
@@ -27,7 +27,7 @@ d3.csv("data/response.csv").then(data => {
     }).on("mouseout", function () {
         d3.select(".tooltip").style("display", "none");
     });
-    
+
     d3.selectAll("select").on("change", updateVisualization);
 
     function updateVisualization() {
@@ -102,18 +102,21 @@ d3.csv("data/response.csv").then(data => {
         const svg = d3.select("#heatmap");
         svg.selectAll("*").remove();
 
-        // Ensure container exists before getting dimensions
         const container = document.querySelector(".heatmap-section");
         if (!container) {
             console.error("Error: .heatmap_section not found!");
             return;
         }
 
-        const { width: containerWidth, height: containerHeight } = container.getBoundingClientRect();
+        const margin = { top: 50, right: 50, bottom: 100, left: 150 };
+        const width = 1200 - margin.left - margin.right;
+        const height = 800 - margin.top - margin.bottom;
 
-        const margin = { top: 50, right: 50, bottom: 100, left: 150 }; // More space for y-axis
-        const width = containerWidth - margin.left - margin.right;
-        const height = containerHeight - margin.top - margin.bottom;
+        svg.attr("viewBox", `0 0 1200 800`)
+            .attr("preserveAspectRatio", "xMidYMid meet")
+            .classed("responsive-svg", true);
+
+        const g = svg.append("g").attr("transform", `translate(${margin.left}, ${margin.top})`);
 
         const x = d3.scaleBand()
             .domain([...new Set(data.map(d => d.race + " " + d.gender))])
@@ -126,13 +129,8 @@ d3.csv("data/response.csv").then(data => {
             .padding(0);
 
         const colorScale = d3.scaleSequential(d3.interpolateReds)
-            .domain([d3.min(data, d => d.prob_gpt3_5_high - d.prob_gpt3_5_low), 
-                d3.max(data, d => d.prob_gpt3_5_high - d.prob_gpt3_5_low)]);
-
-        svg.attr("width", containerWidth)
-            .attr("height", containerHeight);
-
-        const g = svg.append("g").attr("transform", `translate(${margin.left}, ${margin.top})`);
+            .domain([d3.min(data, d => d.prob_gpt3_5_high - d.prob_gpt3_5_low),
+            d3.max(data, d => d.prob_gpt3_5_high - d.prob_gpt3_5_low)]);
 
         g.selectAll("rect")
             .data(data)
@@ -174,20 +172,23 @@ d3.csv("data/response.csv").then(data => {
         // Axis Labels
         svg.append("text")
             .attr("x", width / 2 + margin.left)
-            .attr("y", containerHeight - 40) // Move x-axis label higher
+            .attr("y", 780)
             .attr("text-anchor", "middle")
             .style("font-size", "16px")
             .text("Race & Gender");
 
         svg.append("text")
             .attr("x", -height / 2 - margin.top)
-            .attr("y", 15) // Move y-axis label further left
+            .attr("y", 15)
             .attr("text-anchor", "middle")
             .attr("transform", "rotate(-90)")
             .style("font-size", "16px")
             .text("Medical Context");
     }
 
-
     updateVisualization();
+
+    window.addEventListener("resize", () => {
+        updateVisualization();
+    });
 });
