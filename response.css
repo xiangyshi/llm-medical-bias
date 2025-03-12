@@ -142,6 +142,31 @@ select {
     pointer-events: none;
 }
 
+#radialTooltip {
+    position: absolute;
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 8px;
+    border-radius: 5px;
+    font-size: 14px;
+    pointer-events: none;  /* Ensures it doesn’t interfere with mouse events */
+    opacity: 0;  /* Initially hidden */
+    transition: opacity 0.2s ease-in-out;
+}
+
+#heatmapTooltip {
+    position: absolute;
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 8px;
+    border-radius: 5px;
+    font-size: 14px;
+    pointer-events: none;  /* Prevents interfering with mouse events */
+    opacity: 0;  /* Hidden by default */
+    transition: opacity 0.2s ease-in-out;
+}
+
+
 .heatmap_section {
     display: flex;
     flex-direction: column;

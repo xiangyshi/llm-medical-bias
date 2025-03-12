@@ -44,31 +44,33 @@ d3.csv("data/response.csv").then(data => {
 
     function updateRadialChart(svgId, filteredData, prob1Key, prob2Key, labels) {
         const svg = d3.select(svgId)
-            .attr("viewBox", "0 0 400 400")  // Ensures automatic scaling
-            .attr("preserveAspectRatio", "xMidYMid meet")  // Keeps proportions
-            .classed("responsive-svg", true);  // Adds a class for CSS styling
-
+            .attr("viewBox", "0 0 400 450")  // Increased height for the legend
+            .attr("preserveAspectRatio", "xMidYMid meet")
+            .classed("responsive-svg", true);
+    
         svg.selectAll("*").remove();
-
+    
         const width = 300, height = 300, radius = Math.min(width, height) / 2;
         const arc = d3.arc().innerRadius(50).outerRadius(radius);
         const pie = d3.pie().value(d => d.value);
-
+    
         const data = [
-            { label: labels[0], value: filteredData[prob1Key] },
-            { label: labels[1], value: filteredData[prob2Key] }
+            { label: labels[0], value: filteredData[prob1Key], color: "#2ecc71" },
+            { label: labels[1], value: filteredData[prob2Key], color: "#e74c3c" }
         ];
-
+    
         const g = svg.append("g").attr("transform", `translate(${width / 2}, ${height / 2})`);
-
+    
         const paths = g.selectAll("path")
             .data(pie(data))
             .enter()
             .append("path")
             .attr("d", arc)
-            .attr("fill", (d, i) => i === 0 ? "#2ecc71" : "#e74c3c")
+            .attr("fill", d => d.data.color)
             .style("cursor", "pointer")
             .on("mouseover", function (event, d) {
+                let tooltip = d3.select("#radialTooltip");
+            
                 let tooltipText = "";
                 if (svgId === "#radialChart1") {
                     tooltipText = d.data.label === "Yes"
@@ -79,15 +81,23 @@ d3.csv("data/response.csv").then(data => {
                         ? `${filteredData.race} ${filteredData.gender} with ${filteredData.context} are prescribed high dosage of medication ${(filteredData[prob1Key] * 100).toFixed(2)}% of the time.`
                         : `${filteredData.race} ${filteredData.gender} with ${filteredData.context} are prescribed low dosage of medication ${(filteredData[prob2Key] * 100).toFixed(2)}% of the time.`;
                 }
-
-                d3.select(".tooltip")
-                    .style("display", "block")
-                    .style("left", (event.pageX + 10) + "px")
-                    .style("top", (event.pageY - 10) + "px")
-                    .html(tooltipText);
+            
+                tooltip.html(tooltipText)
+                    .style("opacity", "1")
+                    .style("left", `${event.pageX + 15}px`)
+                    .style("top", `${event.pageY + 15}px`);
             })
-            .on("mouseout", () => d3.select(".tooltip").style("display", "none"));
-
+            .on("mousemove", function (event) {
+                d3.select("#radialTooltip")
+                    .style("left", `${event.pageX + 15}px`)
+                    .style("top", `${event.pageY + 15}px`);
+            })
+            .on("mouseout", function () {
+                d3.select("#radialTooltip")
+                    .style("opacity", "0"); // Fade out smoothly
+            });
+            
+    
         paths.transition()
             .duration(800)
             .attrTween("d", function (d) {
@@ -96,7 +106,32 @@ d3.csv("data/response.csv").then(data => {
                     return arc(i(t));
                 };
             });
+    
+        // Add a legend
+        const legend = svg.append("g")
+            .attr("transform", `translate(${width / 2 - 40}, ${height + 20})`);
+    
+        legend.selectAll("rect")
+            .data(data)
+            .enter()
+            .append("rect")
+            .attr("x", 0)
+            .attr("y", (d, i) => i * 25)
+            .attr("width", 15)
+            .attr("height", 15)
+            .attr("fill", d => d.color);
+    
+        legend.selectAll("text")
+            .data(data)
+            .enter()
+            .append("text")
+            .attr("x", 25)
+            .attr("y", (d, i) => i * 25 + 12)
+            .text(d => d.label)
+            .attr("font-size", "14px")
+            .attr("fill", "#333");
     }
+    
 
     function updateHeatmap(data) {
         const svg = d3.select("#heatmap");
@@ -144,10 +179,10 @@ d3.csv("data/response.csv").then(data => {
             .attr("rx", 5)
             .attr("ry", 5)
             .on("mouseover", function (event, d) {
-                d3.select(".tooltip")
-                    .style("display", "block")
-                    .style("left", (event.pageX + 10) + "px")
-                    .style("top", (event.pageY - 10) + "px")
+                d3.select("#heatmapTooltip")
+                    .style("opacity", "1")
+                    .style("left", `${event.pageX + 10}px`)
+                    .style("top", `${event.pageY - 10}px`)
                     .html(
                         `Context: ${d.context}<br>
                          Race: ${d.race}<br>
@@ -155,7 +190,16 @@ d3.csv("data/response.csv").then(data => {
                          Uncertainty: ${(d.prob_gpt3_5_high - d.prob_gpt3_5_low).toFixed(2)}`
                     );
             })
-            .on("mouseout", () => d3.select(".tooltip").style("display", "none"));
+            .on("mousemove", function (event) {
+                d3.select("#heatmapTooltip")
+                    .style("left", `${event.pageX + 10}px`)
+                    .style("top", `${event.pageY - 10}px`);
+            })
+            .on("mouseout", function () {
+                d3.select("#heatmapTooltip")
+                    .style("opacity", "0"); // Smoothly hide the tooltip
+            });
+            
 
         // Add Axes
         g.append("g")

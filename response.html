@@ -13,83 +13,93 @@
 
     <script src="https://d3js.org/d3.v7.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/d3-simple-slider"></script>
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Uncertainty Analysis</title>
+    <style>
+        .tab {
+            display: none;
+        }
+        .active {
+            display: block;
+        }
+        .tab-buttons {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 20px;
+        }
+        .tab-buttons button {
+            padding: 10px 20px;
+            cursor: pointer;
+            border: none;
+            background-color: #ddd;
+        }
+        .tab-buttons button.active {
+            background-color: #bbb;
+        }
+    </style>
 </head>
-
 <body>
+    <div class="tab-buttons">
+        <button class="tab-button active" onclick="openTab(event, 'rawData')">Raw Data Overview</button>
+        <button class="tab-button" onclick="openTab(event, 'interactive')">Interactive Exploration</button>
+    </div>
 
-    <body>
+    <div id="rawData" class="tab active">
         <h1>Response Overview</h1>
-        <!-- Container for all charts -->
         <div class="chart-container">
-
-            <!-- First Row: Barplots -->
             <div class="row" style="display: flex; justify-content: space-between;">
-                <!-- Summary Barplot -->
                 <div class="chart" style="flex: 1; padding: 10px;">
                     <svg id="barSummaryChart"></svg>
                     <div id="barSummaryDrop"></div>
                 </div>
-                <!-- Individual Barplot -->
                 <div class="chart" style="flex: 1; padding: 10px;">
                     <svg id="barIndividualChart"></svg>
                     <div id="barIndividualDrop"></div>
                 </div>
             </div>
-
-            <!-- Second Row: Scatter Plots -->
             <div class="row" style="display: flex; justify-content: space-between; margin-top: 20px;">
-                <!-- Summary Scatter Plot -->
                 <div class="chart" style="flex: 1; padding: 10px;">
                     <svg id="scatterSummaryChart"></svg>
                     <div id="scatterSummaryDrop"></div>
                 </div>
-                <!-- Individual Scatter Plot -->
                 <div class="chart" style="flex: 1; padding: 10px;">
                     <svg id="scatterIndividualChart"></svg>
                     <div id="scatterIndividualDrop"></div>
                 </div>
             </div>
-
         </div>
+    </div>
+
+    <div id="interactive" class="tab">
         <div class="container">
             <h1>🛑 Levels of Pain and How They Affect You</h1>
-            <div class="pain_index">
-
-            </div>
+            <div class="pain_index"></div>
         </div>
         <div class="container">
             <h1>🛑 AI’s Uncertainty in Medicine: Confidence for Some, Hesitation for Others</h1>
-            <span class="tooltip">Confidence<span class="tooltiptext">AI assigns a high probability to a decision.</span></span>  
-            <span class="tooltip">Hesitation<span class="tooltiptext">AI is uncertain, spreading probability between options.</span></span>  
-
+            <div id="radialTooltip" style="position: absolute; opacity: 0;"></div>
+            <div class="tooltip">Confidence<span class="tooltiptext">AI assigns a high probability to a decision.</span></div>
+            <div class="tooltip">Hesitation<span class="tooltiptext">AI is uncertain, spreading probability between options.</span></div>
             <div class="narrative">
-                <p>
-                    <strong>Imagine you’re a patient, waiting for an AI system to decide your treatment.</strong>
-                    The AI isn’t just making decisions—it’s hesitating. Sometimes, that hesitation reflects fairness.
-                    Other times, it exposes bias.
-                </p>
+                <p><strong>Imagine you’re a patient, waiting for an AI system to decide your treatment.</strong></p>
+                <p>The AI isn’t just making decisions—it’s hesitating. Sometimes, that hesitation reflects fairness. Other times, it exposes bias.</p>
             </div>
-
             <div class="controls">
                 <p class="control-instruction">🎯 Select filters to explore how AI uncertainty changes:</p>
-
                 <div class="dropdown-group">
                     <label for="context">📍 Medical Context:</label>
                     <select id="context"></select>
                 </div>
-
                 <div class="dropdown-group">
                     <label for="race">🌎 Race:</label>
                     <select id="race"></select>
                 </div>
-
                 <div class="dropdown-group">
                     <label for="gender">⚧️ Gender:</label>
                     <select id="gender"></select>
                 </div>
             </div>
-            
             <div class="charts">
                 <div class="chart-section">
                     <h2>AI’s Decision Confidence (Yes vs. No Medication)</h2>
@@ -100,65 +110,40 @@
                     <svg id="radialChart2"></svg>
                 </div>
             </div>
-
             <div class="summary">
                 <h2>🔍 So What Does This Mean?</h2>
                 <p>These charts reveal how AI weighs its decisions. Approval vs. Denial, High vs. Low dosage—</p>
                 <p class="important-question">🤔 <strong>How uncertain is the AI when making these choices?</strong></p>
             </div>
-
-
             <div class="heatmap-section">
                 <h2>Uncertainty Across Demographics & Context</h2>
-                <div class="uncertainty-explanation">
-                    <h2>What Does AI Uncertainty Mean?</h2>
-                    <p>
-                        AI models make predictions with different levels of confidence. When prescribing medication,
-                        the model decides whether to give a <strong>high</strong> or <strong>low</strong> dosage.
-                    </p>
-                    <p>
-                        This heatmap shows how <strong>uncertain</strong> the AI is about these decisions.
-                    </p>
-                    <ul>
-                        <li><span class="highlight high-confidence"></span> <strong>Bright red areas</strong>  mean the
-                            AI is strongly confident in its decision.</li>
-                        <li><span class="highlight low-confidence"></span> <strong>Lighter areas</strong>  mean the AI is
-                            more unsure, splitting probability between high and low dosages.</li>
-                    </ul>
-                    <p>
-                        Uncertainty can be influenced by <strong>patient demographics</strong> and <strong>medical
-                            context</strong>.
-                        A <strong>low uncertainty score</strong> suggests hesitation, while a <strong>high uncertainty
-                            score</strong>
-                        may indicate bias toward one dosage.
-                    </p>
-                </div>
+                <div id="heatmapTooltip" style="position: absolute; opacity: 0;"></div>
                 <div class="heatmap_container">
                     <svg id="heatmap"></svg>
                 </div>
-
-                <div class="real-world">
-                    <h2>Uncertainty in the Real World</h2>
-                    <p>AI isn't just theoretical—it’s being used in hospitals, finance, and law enforcement.
-                        When an AI hesitates, it could mean <strong>a delayed diagnosis, a rejected loan, or a wrong
-                            decision.</strong></p>
-                    <p>Uncertainty isn’t always bad, but understanding when and why it happens is key.</p>
-                </div>
-
             </div>
-
-            <div class="tooltip"></div>
+            <div class="real-world">
+                <h2>Uncertainty in the Real World</h2>
+                <p>AI isn't just theoretical—it’s being used in hospitals, finance, and law enforcement.</p>
+                <p>Uncertainty isn’t always bad, but understanding when and why it happens is key.</p>
+            </div>
         </div>
-
         <div class="cta">
             <h2>What Can We Do About It?</h2>
             <p>Bias and uncertainty in AI aren’t just problems—they’re challenges we can solve.</p>
             <p>Better data, transparency, and accountability can lead to fairer AI decisions.</p>
             <p><strong>How will you think about AI differently now?</strong></p>
         </div>
+    </div>
 
-        <script src="response.js"></script>
-    </body>
+    <script>
+        function openTab(event, tabId) {
+            document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
+            document.getElementById(tabId).classList.add('active');
+            event.currentTarget.classList.add('active');
+        }
+    </script>
+    <script src="response.js"></script>
 </body>
-
 </html>
