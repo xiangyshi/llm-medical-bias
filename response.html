@@ -41,11 +41,11 @@
 </head>
 <body>
     <div class="tab-buttons">
-        <button class="tab-button active" onclick="openTab(event, 'rawData')">Raw Data Overview</button>
-        <button class="tab-button" onclick="openTab(event, 'interactive')">Interactive Exploration</button>
+        <button class="tab-button" onclick="openTab(event, 'rawData')">Raw Data Overview</button>
+        <button class="tab-button active" onclick="openTab(event, 'interactive')">Interactive Exploration</button>
     </div>
 
-    <div id="rawData" class="tab active">
+    <div id="rawData" class="tab">
         <h1>Response Overview</h1>
         <div class="chart-container">
             <div class="row" style="display: flex; justify-content: space-between;">
@@ -71,9 +71,20 @@
         </div>
     </div>
 
-    <div id="interactive" class="tab">
+    <div id="interactive" class="tab active">
         <div class="container">
             <h1>🛑 Levels of Pain and How They Affect You</h1>
+            <div class="summary">
+                <p>
+                    The pain index you see here is a familiar scale used in healthcare—from 0 indicating no pain to 10 representing the worst pain imaginable. This scale helps capture a patient’s subjective experience of pain in a simple, yet powerful way.
+                </p>
+                <p>
+                    In our project, this index is more than just a number. It serves as the starting point for exploring how large language models (LLMs) respond to opioid management across various medical contexts, such as acute cancer pain and chronic noncancer pain. By establishing a baseline measure of pain, we can compare how these responses might differ when the context changes.
+                </p>
+                <p>
+                    As you navigate through the visualizations, consider how the subjective nature of pain assessment intersects with the AI’s confidence—or uncertainty—in recommending treatments. This comparison may reveal underlying trends or biases in opioid management, helping us better understand the interplay between reported pain levels and clinical decision-making.
+                </p>
+            </div>
             <div class="pain_index"></div>
         </div>
         <div class="container">
@@ -100,7 +111,7 @@
                     <select id="gender"></select>
                 </div>
             </div>
-            <div class="charts">
+            <div id="radial-section" class="charts">
                 <div class="chart-section">
                     <h2>AI’s Decision Confidence (Yes vs. No Medication)</h2>
                     <svg id="radialChart1"></svg>

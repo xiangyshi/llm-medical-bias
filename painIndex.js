@@ -15,28 +15,28 @@ document.addEventListener("DOMContentLoaded", function () {
   // Define an array with pain levels, descriptions, image paths, and HTML-formatted scenarios
   const painData = [
     { level: 0, description: "No pain", image: "images/level0.jpg",
-      scenarioHTML: "<p><strong>No pain at all.</strong> You feel completely comfortable; nothing hinders your activities.</p>" },
+      scenarioHTML: "<p><strong>No pain at all.</strong> Imagine a perfect day when you feel completely at ease—no discomfort or interruptions, just pure comfort.</p>" },
     { level: 1, description: "Light pain: Minor scratch", image: "images/level1.jpg",
-      scenarioHTML: "<p><strong>Light pain.</strong> It feels like a tiny scratch—barely noticeable during your day.</p>" },
+      scenarioHTML: "<p><strong>Light pain.</strong> Picture a tiny scratch from brushing against a thorn—a brief, barely noticeable sting that quickly fades.</p>" },
     { level: 2, description: "Light pain: Small bruise", image: "images/level1.jpg",
-      scenarioHTML: "<p><strong>Light pain.</strong> A small bruise may distract you momentarily, but it doesn't affect your routine.</p>" },
+      scenarioHTML: "<p><strong>Light pain.</strong> You accidentally bump your arm against a doorframe, leaving a small bruise that distracts you for a moment without interrupting your day.</p>" },
     { level: 3, description: "Light pain: Mild discomfort", image: "images/level1.jpg",
-      scenarioHTML: "<p><strong>Light pain.</strong> Mild discomfort that occasionally makes you aware of it, but you continue with daily tasks.</p>" },
+      scenarioHTML: "<p><strong>Light pain.</strong> After a long day, a mild discomfort in your back lingers—enough to remind you it's there but not enough to slow you down.</p>" },
     { level: 4, description: "Moderate pain: Noticeable ache", image: "images/level2.jpg",
-      scenarioHTML: "<p><strong>Moderate pain.</strong> A noticeable ache, similar to a mild headache, that might slow you down at times.</p>" },
+      scenarioHTML: "<p><strong>Moderate pain.</strong> Imagine a steady, dull ache, like a mild headache that intermittently distracts you and slightly hampers your focus.</p>" },
     { level: 5, description: "Moderate pain: Persistent discomfort", image: "images/level2.jpg",
-      scenarioHTML: "<p><strong>Moderate pain.</strong> Persistent discomfort forces you to take occasional breaks during the day.</p>" },
+      scenarioHTML: "<p><strong>Moderate pain.</strong> Consider chronic joint pain that forces you to pause and stretch periodically, mildly interfering with your daily activities.</p>" },
     { level: 6, description: "Moderate pain: Disruptive pain", image: "images/level2.jpg",
-      scenarioHTML: "<p><strong>Moderate pain.</strong> The pain is disruptive, making it hard to concentrate and limiting physical activity.</p>" },
+      scenarioHTML: "<p><strong>Moderate pain.</strong> A flare-up in your lower back makes it difficult to sit or walk continuously, requiring you to frequently adjust your position.</p>" },
     { level: 7, description: "Severe pain: Intense and distracting", image: "images/level3.jpg",
-      scenarioHTML: "<p><strong>Severe pain.</strong> Intense pain distracts you significantly; you may need strong pain relievers and frequent rest.</p>" },
+      scenarioHTML: "<p><strong>Severe pain.</strong> Imagine a severe migraine with intense, pulsating pain that demands your full attention and forces you to rest, often requiring strong medication.</p>" },
     { level: 8, description: "Severe pain: Debilitating discomfort", image: "images/level3.jpg",
-      scenarioHTML: "<p><strong>Severe pain.</strong> Debilitating discomfort greatly limits your work, social life, and daily tasks.</p>" },
+      scenarioHTML: "<p><strong>Severe pain.</strong> Picture the sharp, debilitating pain of kidney stones that makes even simple movements agonizing, greatly limiting your daily activities.</p>" },
     { level: 9, description: "Severe pain: Excruciating and overwhelming", image: "images/level3.jpg",
-      scenarioHTML: "<p><strong>Severe pain.</strong> Excruciating, overwhelming pain forces you to cancel plans and rest completely.</p>" },
+      scenarioHTML: "<p><strong>Severe pain.</strong> Think of the excruciating pain following a major surgery—so overwhelming that it confines you to bed, unable to manage even basic tasks without assistance.</p>" },
     { level: 10, description: "Worst pain possible: Unbearable agony", image: "images/level4.jpg",
-      scenarioHTML: "<p><strong>Worst pain possible.</strong> Unbearable agony incapacitates you, making it impossible to function normally.</p>" }
-  ];
+      scenarioHTML: "<p><strong>Worst pain possible.</strong> In the event of a catastrophic injury, the pain becomes all-consuming, rendering you completely incapacitated and in need of immediate, intensive care.</p>" }
+  ];  
 
   // Append a text element for the pain description (positioned at the top of the SVG)
   const painDescription = svg.append("text")
@@ -124,30 +124,6 @@ document.addEventListener("DOMContentLoaded", function () {
   gSlider.select(".track")
     .attr("stroke", "url(#sliderGradient)")
     .attr("stroke-width", "6px");
-
-  // OPTIONAL: Add a tooltip for additional interactivity on the slider handle
-  const tooltip = d3.select(".pain_index")
-    .append("div")
-    .attr("class", "tooltip")
-    .style("position", "absolute")
-    .style("visibility", "hidden")
-    .style("background", "#f8f8f8")
-    .style("border", "1px solid #ccc")
-    .style("padding", "5px")
-    .style("border-radius", "5px");
-
-  gSlider.selectAll(".parameter-value")
-    .on("mouseover", function(event, d) {
-      tooltip.style("visibility", "visible")
-             .text(`Pain Level: ${slider.value()}`);
-    })
-    .on("mousemove", function(event) {
-      tooltip.style("top", (event.pageY - 10) + "px")
-             .style("left", (event.pageX + 10) + "px");
-    })
-    .on("mouseout", function() {
-      tooltip.style("visibility", "hidden");
-    });
 
   // Initialize visualization with pain level 0
   updatePainVisualization(0);
