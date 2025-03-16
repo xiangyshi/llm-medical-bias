@@ -62,3 +62,89 @@ h1 {
         align-items: center;
     }
 }
+
+
+
+/* Styles for the slideshow container */
+.slideshow-container {
+    padding: 20px;
+    background-color: #f9f9f9; /* Light background for contrast */
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+}
+
+/* Styles for the slide content */
+.mySlides {
+    text-align: center; /* Center align text */
+}
+
+/* Styles for input fields and labels */
+label {
+    display: block; /* Make labels block elements */
+    margin: 10px 0 5px; /* Spacing around labels */
+    font-weight: bold; /* Bold labels */
+    color: #333; /* Dark text color */
+}
+
+input[type="number"],
+input[type="text"],
+select {
+    width: 80%; /* Full width for inputs */
+    padding: 10px; /* Padding inside inputs */
+    border: 1px solid #ccc; /* Light border */
+    border-radius: 5px; /* Rounded corners */
+    font-size: 16px; /* Font size */
+    margin-bottom: 15px; /* Spacing below inputs */
+}
+
+input[type="number"]:focus,
+input[type="text"]:focus,
+select:focus {
+    border-color: #007bff; /* Change border color on focus */
+    outline: none; /* Remove default outline */
+}
+
+/* Styles for input groups */
+.input-group {
+    margin-bottom: 15px; /* Spacing below each input group */
+}
+
+/* Styles for button group */
+.button-group {
+    display: flex; /* Use flexbox for alignment */
+    justify-content: space-between; /* Space buttons evenly */
+    margin-top: 20px; /* Spacing above buttons */
+}
+
+/* Styles for buttons */
+.prev, .next {
+    background-color: #007bff; /* Button color */
+    color: white; /* Text color */
+    border: none; /* Remove border */
+    padding: 10px 15px; /* Padding */
+    border-radius: 5px; /* Rounded corners */
+    cursor: pointer; /* Pointer cursor */
+    font-size: 16px; /* Font size */
+    transition: background-color 0.3s; /* Transition effect */
+    flex: 1; /* Allow buttons to grow equally */
+    margin: 0 5px; /* Spacing between buttons */
+}
+
+.prev:hover, .next:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+}
+
+.save-button {
+    background-color: #28a745; /* Green button color */
+    color: white; /* Text color */
+    border: none; /* Remove border */
+    padding: 10px 15px; /* Padding */
+    border-radius: 5px; /* Rounded corners */
+    cursor: pointer; /* Pointer cursor */
+    font-size: 16px; /* Font size */
+    transition: background-color 0.3s; /* Transition effect */
+}
+
+.save-button:hover {
+    background-color: #218838; /* Darker green on hover */
+}

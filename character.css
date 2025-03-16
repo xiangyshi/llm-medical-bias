@@ -1,0 +1,309 @@
+.character {
+    position: relative;
+    width: 100px;
+    height: 250px;
+    margin: 50px auto;
+}
+
+.head {
+    width: 60px;
+    height: 60px;
+    background-color: #ffcc99; /* Skin color */
+    border-radius: 50%;
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    overflow: hidden; /* To contain the eyes and mouth */
+}
+
+.eye {
+    width: 10px;
+    height: 10px;
+    background-color: #000; /* Eye color */
+    border-radius: 50%;
+    position: absolute;
+    top: 20px;
+}
+
+.left-eye {
+    left: 15px;
+}
+
+.right-eye {
+    right: 15px;
+}
+
+.mouth {
+    width: 20px;
+    height: 5px;
+    background-color: #000; /* Mouth color */
+    border-radius: 5px;
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.pain-mouth {
+    width: 20px;
+    height: 10px; /* Increased height for a frown shape */
+    background-color: transparent; /* Make the background transparent */
+    border: 2px solid #000; /* Outline color for the mouth */
+    border-radius: 0 0 10px 10px; /* Rounded bottom corners for a frown */
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%) rotate(180deg); /* Rotate to create a downward mouth */
+}
+
+.hair {
+    width: 70px; /* Wider than the head */
+    height: 30px; /* Height of the hair */
+    background-color: #8B4513; /* Hair color (brown) */
+    position: absolute;
+    top: -10px; /* Position above the head */
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 50%; /* Rounded top for a more natural look */
+}
+
+.speech-bubble {
+    position: absolute;
+    top: 30px; /* Adjust this value as needed for vertical positioning */
+    left: 100%; /* Position it to the right of the body */
+    transform: translateX(30px); /* Add some space between the body and the bubble */
+    background-color: #fff;
+    border: 2px solid #4CAF50; /* Border color */
+    border-radius: 10px;
+    padding: 10px;
+    width: 120px; /* Width of the speech bubble */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.speech-bubble::after {
+    content: '';
+    position: absolute;
+    top: 50%; /* Center vertically relative to the bubble */
+    left: -10px; /* Position it to the left of the bubble */
+    margin-top: -5px; /* Center the triangle vertically */
+    border-width: 5px;
+    border-style: solid;
+    border-color: transparent #4CAF50 transparent transparent; /* Triangle color */
+}
+
+.body {
+    width: 80px;
+    height: 100px;
+    background-color: #4CAF50; /* Shirt color */
+    position: absolute;
+    top: 60px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.arm {
+    width: 20px;
+    height: 80px;
+    background-color: #ffcc99; /* Skin color */
+    position: absolute;
+    top: 60px;
+}
+
+.left-arm {
+    left: -20px;
+    top: -10px;
+    transform-origin: bottom;
+    animation: wave 1s infinite alternate;
+}
+
+.right-arm {
+    right: -20px;
+    transform-origin: left;
+}
+
+.leg {
+    width: 20px;
+    height: 80px;
+    background-color: #000; /* Pants color */
+    position: absolute;
+    top: 160px;
+}
+
+.left-leg {
+    left: 20px;
+}
+
+.right-leg {
+    right: 20px;
+}
+
+@keyframes wave {
+    0% {
+        transform: rotate(-15deg);
+    }
+    100% {
+        transform: rotate(15deg);
+    }
+}
+
+
+
+
+.hospital-scene {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.hospital-bed {
+    width: 250px; /* Increased width for a longer bed */
+    height: 300px;
+    background-color: #a0a0a0;
+    border: 2px solid #ccc;
+    border-radius: 10px;
+    position: relative;
+}
+
+.bed {
+    width: 100%;
+    height: 20px;
+    background-color: #fff;
+    border-radius: 5px;
+    position: absolute;
+    top: 40px;
+}
+
+.character-laying {
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: row;
+}
+
+.doctor {
+    width: 60px; /* Width for the doctor */
+    height: 140px; /* Increased height for more detail */
+    position: relative;
+    margin-left: 40px;
+}
+
+.doctor-mouth {
+    width: 40px; /* Adjust width as needed */
+    height: 20px; /* Adjust height as needed */
+    background-color: #fff; /* Color of the mask */
+    border-radius: 10px; /* Rounded edges for the mask */
+    position: relative;
+    top: 40px; /* Adjust position as needed */
+    left: 10px; /* Center the mask */
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.5); /* Optional shadow for depth */
+}
+
+.lace {
+    width: 2px; /* Width of the lace */
+    height: 15px; /* Height of the lace */
+    background-color: #F0F0F0; /* Color of the lace */
+    position: absolute;
+    top: 5px; /* Position above the mask */
+}
+
+.lace-left {
+    top: -5px;
+    left: -7px; /* Position for the left lace */
+    transform: rotate(-45deg);
+}
+
+.lace-right {
+    top: -5px;
+    right: -7px; /* Position for the right lace */
+    transform: rotate(45deg);
+}
+
+.doctor-body {
+    width: 80px;
+    height: 100px;
+    background-color: #FFFFFF; /* Shirt color */
+    position: absolute;
+    top: 60px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.doctor-arm {
+    width: 20px;
+    height: 80px;
+    background-color: #ffcc99; /* Skin color */
+    position: absolute;
+    top: 60px;
+}
+
+.doctor-left-arm {
+    left: -20px;
+    top: -10px;
+    transform-origin: bottom;
+    top: 60px;
+}
+
+.doctor-right-arm {
+    right: -20px;
+    transform-origin: left;
+}
+
+.doctor-leg {
+    width: 20px;
+    height: 80px;
+    background-color: #000; /* Pants color */
+    position: absolute;
+    top: 160px;
+}
+
+.doctor-left-leg {
+    left: 40px;
+}
+
+.doctor-right-leg {
+    right: 40px;
+}
+
+
+/* character.css */
+.computer {
+    position: relative;
+    width: 100px; /* Width of the computer */
+    height: 80px; /* Height of the computer */
+    margin-left: 200px; /* Center the computer */
+    border: 3px solid #000; /* Added border */
+    border-radius: 10px; /* Added rounded corners */
+}
+
+.screen {
+    width: 100%; /* Full width of the computer */
+    height: 60%; /* Height of the screen */
+    background-color: #000; /* Screen color */
+    color: #fff; /* Text color */
+    display: flex;
+    align-items: center; /* Center text vertically */
+    justify-content: center; /* Center text horizontally */
+    font-size: 20px; /* Font size for "AI" */
+    border-radius: 5px 5px 0 0; /* Rounded top corners */
+}
+
+.computer-body {
+    width: 100%; /* Full width of the computer */
+    height: 40%; /* Height of the body */
+    background-color: #ccc; /* Body color */
+    border-radius: 0 0 5px 5px; /* Rounded bottom corners */
+}
+
+.stand {
+    width: 10px; /* Width of the stand */
+    height: 10px; /* Height of the stand */
+    background-color: #666; /* Stand color */
+    position: absolute;
+    bottom: 4px; /* Position below the body */
+    left: 50%;
+    transform: translateX(-50%); /* Center the stand */
+}

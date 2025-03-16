@@ -7,9 +7,10 @@
     <title>AI's Hidden Uncertainty</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="response.css">
-    <script src="./jsmethod/barplot.js" type="module" defer></script>
-    <script src="./jsmethod/scatterplot.js" type="module" defer></script>
-    <script src="painIndex.js" type="module"></script>
+    <link rel="stylesheet" href="character.css">
+    <script src="./js/barplot.js" type="module" defer></script>
+    <script src="./js/scatterplot.js" type="module" defer></script>
+    <script src="./js/painIndex.js" type="module"></script>
 
     <script src="https://d3js.org/d3.v7.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/d3-simple-slider"></script>
@@ -37,12 +38,51 @@
         .tab-buttons button.active {
             background-color: #bbb;
         }
+        .slideshow-container {
+            position: relative;
+            max-width: 100%;
+            margin: auto;
+        }
+        .mySlides {
+            display: none;
+        }
+        img {
+            width: 100%;
+        }
+        .prev,
+        .next {
+            cursor: pointer;
+            position: absolute;
+            top: 50%;
+            width: auto;
+            padding: 16px;
+            color: white;
+            font-weight: bold;
+            font-size: 18px;
+            transition: 0.6s ease;
+            border-radius: 0 3px 3px 0;
+            user-select: none;
+        }
+        .next {
+            right: 0;
+            border-radius: 3px 0 0 3px;
+        }
+        .dot {
+            height: 15px;
+            width: 15px;
+            margin: 0 2px;
+            background-color: #bbb;
+            border-radius: 50%;
+            display: inline-block;
+            transition: background-color 0.6s ease;
+        }
     </style>
 </head>
 <body>
     <div class="tab-buttons">
-        <button class="tab-button" onclick="openTab(event, 'rawData')">Raw Data Overview</button>
+        <button class="tab-button" onclick="openTab(event, 'slideshow')">Slideshow</button>
         <button class="tab-button active" onclick="openTab(event, 'interactive')">Interactive Exploration</button>
+        <button class="tab-button" onclick="openTab(event, 'rawData')">Raw Data Overview</button>
     </div>
 
     <div id="rawData" class="tab">
@@ -76,25 +116,25 @@
             <h1>🛑 Levels of Pain and How They Affect You</h1>
             <div class="summary">
                 <p>
-                    The pain index you see here is a familiar scale used in healthcare—from 0 indicating no pain to 10 representing the worst pain imaginable. This scale helps capture a patient’s subjective experience of pain in a simple, yet powerful way.
+                    The pain index you see here is a familiar scale used in healthcare—from 0 indicating no pain to 10 representing the worst pain imaginable. This scale helps capture a patient's subjective experience of pain in a simple, yet powerful way.
                 </p>
                 <p>
                     In our project, this index is more than just a number. It serves as the starting point for exploring how large language models (LLMs) respond to opioid management across various medical contexts, such as acute cancer pain and chronic noncancer pain. By establishing a baseline measure of pain, we can compare how these responses might differ when the context changes.
                 </p>
                 <p>
-                    As you navigate through the visualizations, consider how the subjective nature of pain assessment intersects with the AI’s confidence—or uncertainty—in recommending treatments. This comparison may reveal underlying trends or biases in opioid management, helping us better understand the interplay between reported pain levels and clinical decision-making.
+                    As you navigate through the visualizations, consider how the subjective nature of pain assessment intersects with the AI's confidence—or uncertainty—in recommending treatments. This comparison may reveal underlying trends or biases in opioid management, helping us better understand the interplay between reported pain levels and clinical decision-making.
                 </p>
             </div>
             <div class="pain_index"></div>
         </div>
         <div class="container">
-            <h1>🛑 AI’s Uncertainty in Medicine: Confidence for Some, Hesitation for Others</h1>
+            <h1>🛑 AI's Uncertainty in Medicine: Confidence for Some, Hesitation for Others</h1>
             <div id="radialTooltip" style="position: absolute; opacity: 0;"></div>
             <div class="tooltip">Confidence<span class="tooltiptext">AI assigns a high probability to a decision.</span></div>
             <div class="tooltip">Hesitation<span class="tooltiptext">AI is uncertain, spreading probability between options.</span></div>
             <div class="narrative">
-                <p><strong>Imagine you’re a patient, waiting for an AI system to decide your treatment.</strong></p>
-                <p>The AI isn’t just making decisions—it’s hesitating. Sometimes, that hesitation reflects fairness. Other times, it exposes bias.</p>
+                <p><strong>Imagine you're a patient, waiting for an AI system to decide your treatment.</strong></p>
+                <p>The AI isn't just making decisions—it's hesitating. Sometimes, that hesitation reflects fairness. Other times, it exposes bias.</p>
             </div>
             <div class="controls">
                 <p class="control-instruction">🎯 Select filters to explore how AI uncertainty changes:</p>
@@ -113,11 +153,11 @@
             </div>
             <div id="radial-section" class="charts">
                 <div class="chart-section">
-                    <h2>AI’s Decision Confidence (Yes vs. No Medication)</h2>
+                    <h2>AI's Decision Confidence (Yes vs. No Medication)</h2>
                     <svg id="radialChart1"></svg>
                 </div>
                 <div class="chart-section">
-                    <h2>AI’s Prescription Confidence (High vs. Low Dosage)</h2>
+                    <h2>AI's Prescription Confidence (High vs. Low Dosage)</h2>
                     <svg id="radialChart2"></svg>
                 </div>
             </div>
@@ -135,15 +175,250 @@
             </div>
             <div class="real-world">
                 <h2>Uncertainty in the Real World</h2>
-                <p>AI isn't just theoretical—it’s being used in hospitals, finance, and law enforcement.</p>
-                <p>Uncertainty isn’t always bad, but understanding when and why it happens is key.</p>
+                <p>AI isn't just theoretical—it's being used in hospitals, finance, and law enforcement.</p>
+                <p>Uncertainty isn't always bad, but understanding when and why it happens is key.</p>
             </div>
         </div>
         <div class="cta">
             <h2>What Can We Do About It?</h2>
-            <p>Bias and uncertainty in AI aren’t just problems—they’re challenges we can solve.</p>
+            <p>Bias and uncertainty in AI aren't just problems—they're challenges we can solve.</p>
             <p>Better data, transparency, and accountability can lead to fairer AI decisions.</p>
             <p><strong>How will you think about AI differently now?</strong></p>
+        </div>
+    </div>
+
+    <div id="slideshow" class="tab">
+        <div class="slideshow-container">
+            <div class="mySlides fade">
+                <h2>Let's Make a Fictional Character!</h2>
+                <div class="input-group">
+                    <label for="nameInput">Name:</label>
+                    <input type="text" id="nameInput" placeholder="Enter name" required>
+                </div>
+                <div class="input-group">
+                    <label for="age">Age:</label>
+                    <input type="number" id="age" placeholder="Enter age" min="0" required>
+                </div>
+                <div class="input-group">
+                    <label for="race">Race:</label>
+                    <select id="race">
+                        <option value="Asian">Asian</option>
+                        <option value="Black">Black</option>
+                        <option value="Hispanic">Hispanic</option>
+                        <option value="White">White</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label for="sex">Sex:</label>
+                    <select id="sex">
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label for="medicalContext">Medical Context:</label>
+                    <select id="medicalContext">
+                        <option value="Acute Cancer Pain">Acute Cancer Pain</option>
+                        <option value="Acute Non Cancer Pain">Acute Non Cancer Pain</option>
+                        <option value="Chronic Cancer Pain">Chronic Cancer Pain</option>
+                        <option value="Chronic Non Cancer Pain">Chronic Non Cancer Pain</option>
+                        <option value="Post Op Pain">Post Op Pain</option>
+                    </select>
+                </div>
+                <button id="saveButton" class="save-button">Save Character</button>
+            </div>
+            <div class="mySlides fade">
+                <h2>Meet Your Character!</h2>
+                
+                <div class="character">
+                    <div class="head">
+                        <div class="hair"></div>
+                        <div class="eye left-eye"></div>
+                        <div class="eye right-eye"></div>
+                        <div class="mouth"></div>
+                    </div>
+                    <div class="speech-bubble">
+                        <p id="characterDescription">Hello! Be sure to click save!</p>
+                    </div>
+                    <div class="body"></div>
+                    <div class="arm left-arm"></div>
+                    <div class="arm right-arm"></div>
+                    <div class="leg left-leg"></div>
+                    <div class="leg right-leg"></div>
+                </div>
+                
+                <p id="characterDescription"></p>
+            </div>
+            <div class="mySlides fade">
+                <div class="hospital-scene">
+                    <div class="hospital-bed">
+                        <div class="bed"></div>
+                        <div class="character-laying">
+                            <div class="head">
+                                <div class="hair"></div>
+                                <div class="eye left-eye"></div>
+                                <div class="eye right-eye"></div>
+                                <div class="pain-mouth"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="doctor">
+                        <div class="head">
+                            <div class="eye left-eye"></div>
+                            <div class="eye right-eye"></div>
+                            <div class="doctor-mouth">
+                                <div class="lace lace-left"></div>
+                                <div class="lace lace-right"></div>
+                            </div>
+                        </div>  
+                        <div class="speech-bubble">
+                            <p id="characterDescription">Your pain is too great for regular pain blockers, I may need to prescribe you with something stronger.</p>
+                        </div>
+                        <div class="doctor-body"></div>
+                        <div class="arm doctor-left-arm"></div>
+                        <div class="arm doctor-right-arm"></div>
+                        <div class="leg doctor-left-leg"></div>
+                        <div class="leg doctor-right-leg"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="mySlides fade">
+                <div class="hospital-scene">
+                    <div class="hospital-bed">
+                        <div class="bed"></div>
+                        <div class="character-laying">
+                            <div class="head">
+                                <div class="hair"></div>
+                                <div class="eye left-eye"></div>
+                                <div class="eye right-eye"></div>
+                                <div class="pain-mouth"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="doctor">
+                        <div class="head">
+                            <div class="eye left-eye"></div>
+                            <div class="eye right-eye"></div>
+                            <div class="doctor-mouth">
+                                <div class="lace lace-left"></div>
+                                <div class="lace lace-right"></div>
+                            </div>
+                        </div>  
+                        <div class="speech-bubble">
+                            <p id="characterDescription">I just have to confirm with our AI diagnostics and medication software.</p>
+                        </div>
+                        <div class="doctor-body"></div>
+                        <div class="arm doctor-left-arm"></div>
+                        <div class="arm doctor-right-arm"></div>
+                        <div class="leg doctor-left-leg"></div>
+                        <div class="leg doctor-right-leg"></div>
+                    </div>
+                    <div class="computer">
+                        <div class="screen">
+                            <p>AI</p>
+                        </div>
+                        <div class="computer-body"></div>
+                        <div class="stand"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="mySlides fade">
+                <div class="hospital-scene">
+                    <div class="hospital-bed">
+                        <div class="bed"></div>
+                        <div class="character-laying">
+                            <div class="head">
+                                <div class="hair"></div>
+                                <div class="eye left-eye"></div>
+                                <div class="eye right-eye"></div>
+                                <div class="pain-mouth"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="doctor">
+                        <div class="head">
+                            <div class="eye left-eye"></div>
+                            <div class="eye right-eye"></div>
+                            <div class="doctor-mouth">
+                                <div class="lace lace-left"></div>
+                                <div class="lace lace-right"></div>
+                            </div>
+                        </div>  
+                        <div class="doctor-body"></div>
+                        <div class="arm doctor-left-arm"></div>
+                        <div class="arm doctor-right-arm"></div>
+                        <div class="leg doctor-left-leg"></div>
+                        <div class="leg doctor-right-leg"></div>
+                    </div>
+                    <div class="computer" style="margin-left:100px;">
+                        <div class="screen">
+                            <p>AI</p>
+                        </div>
+                        <div class="speech-bubble" style="transform: translate(30px, -100px);">
+                            <p id="characterDescription">Based on patient's current condition and medical history, I have to reject the use of opioids in this context.</p>
+                        </div>
+                        <div class="computer-body"></div>
+                        <div class="stand"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="mySlides fade">
+                <div class="hospital-scene">
+                    <div class="hospital-bed">
+                        <div class="bed"></div>
+                        <div class="character-laying">
+                            <div class="head">
+                                <div class="hair"></div>
+                                <div class="eye left-eye"></div>
+                                <div class="eye right-eye"></div>
+                                <div class="pain-mouth"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="doctor">
+                        <div class="head">
+                            <div class="eye left-eye"></div>
+                            <div class="eye right-eye"></div>
+                            <div class="doctor-mouth">
+                                <div class="lace lace-left"></div>
+                                <div class="lace lace-right"></div>
+                            </div>
+                        </div>  
+                        <div class="speech-bubble">
+                            <p id="characterDescription">Oh then you are probably fine. You know, AI is always correct.</p>
+                        </div>
+                        <div class="doctor-body"></div>
+                        <div class="arm doctor-left-arm"></div>
+                        <div class="arm doctor-right-arm"></div>
+                        <div class="leg doctor-left-leg"></div>
+                        <div class="leg doctor-right-leg"></div>
+                    </div>
+                    <div class="computer">
+                        <div class="screen">
+                            <p>AI</p>
+                        </div>
+                        <div class="computer-body"></div>
+                        <div class="stand"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="mySlides fade">
+                
+            </div>
+            <div class="button-group">
+                <a class="prev" onclick="plusSlides(-1)">&#10094; Previous</a>
+                <a class="next" onclick="plusSlides(1)">Next &#10095;</a>
+            </div>
+        </div>
+        <br>
+        <div style="text-align:center">
+            <span class="dot" onclick="currentSlide(1)"></span>
+            <span class="dot" onclick="currentSlide(2)"></span>
+            <span class="dot" onclick="currentSlide(3)"></span>
+            <span class="dot" onclick="currentSlide(4)"></span>
+            <span class="dot" onclick="currentSlide(5)"></span>
+            <span class="dot" onclick="currentSlide(6)"></span>
+            <span class="dot" onclick="currentSlide(7)"></span>
         </div>
     </div>
 
@@ -155,6 +430,7 @@
             event.currentTarget.classList.add('active');
         }
     </script>
-    <script src="response.js"></script>
+    <script src="./js/slideshow.js"></script>
+    <script src="./js/response.js"></script>
 </body>
 </html>
