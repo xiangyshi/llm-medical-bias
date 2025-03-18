@@ -1,11 +1,11 @@
 import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7.9.0/+esm";
 
 const files = [
-    "../data/acute_cancer_responses.csv",
-    "../data/acute_non_cancer_responses.csv",
-    "../data/chronic_cancer_responses.csv",
-    "../data/chronic_non_cancer_responses.csv",
-    "../data/post_op_responses.csv"
+    "data/acute_cancer_responses.csv",
+    "data/acute_non_cancer_responses.csv",
+    "data/chronic_cancer_responses.csv",
+    "data/chronic_non_cancer_responses.csv",
+    "data/post_op_responses.csv"
 ];
 
 // Set up dimensions
@@ -36,7 +36,7 @@ const svgContainer = d3.select("#barIndividualChart")
 
 // Function to format title
 function formatTitle(filename) {
-    return filename.split("/")[2].split("_").join(" ").split(".")[0]
+    return filename.split("/")[1].split("_").join(" ").split(".")[0]
         .split(' ')
         .map(word => word.charAt(0).toUpperCase() + word.slice(1))
         .join(' ');
