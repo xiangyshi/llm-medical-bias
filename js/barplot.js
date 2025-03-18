@@ -36,7 +36,7 @@ const svgContainer = d3.select("#barIndividualChart")
 
 // Function to format title
 function formatTitle(filename) {
-    return filename.split("/")[1].split("_").join(" ").split(".")[0]
+    return filename.split("/")[2].split("_").join(" ").split(".")[0]
         .split(' ')
         .map(word => word.charAt(0).toUpperCase() + word.slice(1))
         .join(' ');

@@ -1,11 +1,11 @@
 import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7.9.0/+esm";
 
 const files = [
-    "./data/acute_cancer_responses.csv",
-    "./data/acute_non_cancer_responses.csv",
-    "./data/chronic_cancer_responses.csv",
-    "./data/chronic_non_cancer_responses.csv",
-    "./data/post_op_responses.csv"
+    "data/acute_cancer_responses.csv",
+    "data/acute_non_cancer_responses.csv",
+    "data/chronic_cancer_responses.csv",
+    "data/chronic_non_cancer_responses.csv",
+    "data/post_op_responses.csv"
 ];
 
 // Set up dimensions
