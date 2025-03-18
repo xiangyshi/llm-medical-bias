@@ -192,7 +192,7 @@ d3.csv("data/response.csv").then(data => {
                 .append("div")
                 .attr("class", "real-world")
                 .html(`
-                    <p>Real-world average pain level for <strong>${currentContext}</strong>: ${avgPain.toFixed(2)}</p>
+                    <p>Real-world average pain level for <strong>${currentContext}</strong>: <h2>${avgPain.toFixed(2)}</h2></p>
                 `);
         });
     }
@@ -252,7 +252,7 @@ d3.csv("data/response.csv").then(data => {
                         `Context: ${d.context}<br>
                          Race: ${d.race}<br>
                          Gender: ${d.gender}<br>
-                         Uncertainty: ${(d.prob_gpt3_5_high - d.prob_gpt3_5_low).toFixed(2)}`
+                         Certainty: ${(d.prob_gpt3_5_high - d.prob_gpt3_5_low).toFixed(2)}`
                     );
             })
             .on("mouseout", () => d3.select(".tooltip").style("display", "none"));
