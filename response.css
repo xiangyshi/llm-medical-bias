@@ -1,6 +1,11 @@
+* {
+    transition: all 0.3s ease;
+}
+
 body {
     font-family: 'Poppins', sans-serif;
-    background: #f4f6f9;
+    background: linear-gradient(135deg, #f4f6f9, #e3f2fd);
+    /* background: #f4f6f9; */
     text-align: center;
     margin: 0;
     padding: 0;
@@ -79,11 +84,13 @@ h1 {
 }
 
 select {
-    padding: 5px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
     background: white;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 8px;
+    font-size: 14px;
     cursor: pointer;
+    transition: border-color 0.3s ease;
 }
 
 .charts {
@@ -273,4 +280,14 @@ select {
 
 .cta h2 {
     color: #1b5e20;
+}
+
+footer {
+    background: #333;
+    color: white;
+    text-align: center;
+    padding: 10px;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
 }

@@ -21,34 +21,42 @@
         .tab {
             display: none;
         }
+
         .active {
             display: block;
         }
+
         .tab-buttons {
             display: flex;
             justify-content: space-around;
             margin-bottom: 20px;
         }
+
         .tab-buttons button {
             padding: 10px 20px;
             cursor: pointer;
             border: none;
             background-color: #ddd;
         }
+
         .tab-buttons button.active {
             background-color: #bbb;
         }
+
         .slideshow-container {
             position: relative;
             max-width: 100%;
             margin: auto;
         }
+
         .mySlides {
             display: none;
         }
+
         img {
             width: 100%;
         }
+
         .prev,
         .next {
             cursor: pointer;
@@ -63,10 +71,12 @@
             border-radius: 0 3px 3px 0;
             user-select: none;
         }
+
         .next {
             right: 0;
             border-radius: 3px 0 0 3px;
         }
+
         .dot {
             height: 15px;
             width: 15px;
@@ -76,8 +86,107 @@
             display: inline-block;
             transition: background-color 0.6s ease;
         }
+
+        .hook {
+            background: rgb(109, 188, 222);
+    color: white;
+    padding: 80px 30px;
+    text-align: center;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    animation: fadeIn 0.8s ease-in-out;
+    position: relative;
+    z-index: 10;
+}
+
+.hook-content h1 {
+    font-size: 42px;
+    font-weight: 700;
+    margin-bottom: 15px;
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.hook-content p {
+    font-size: 22px;
+    margin-bottom: 25px;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+    opacity: 0.9;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+    .key-insights {
+    padding: 60px 20px;
+    text-align: center;}
+
+.insights-grid {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-top: 30px;
+}
+
+.insight-card {
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    width: 300px;
+    transition: transform 0.3s ease;
+}
+
+.insight-card:hover {
+    transform: translateY(-10px);
+}
+
+.insight-card h3 {
+    font-size: 20px;
+    margin-bottom: 10px;
+    color: #1565c0;
+}
+
+.insight-card p {
+    font-size: 16px;
+    color: #333;
+}
+
+footer {
+    background: #333;
+    color: white;
+    text-align: center;
+    padding: 20px;
+    margin-top: 40px;
+}
+
+footer a {
+    color: #ff9800;
+    text-decoration: none;
+}
+
+footer a:hover {
+    text-decoration: underline;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .hero-content h1 {
+        font-size: 36px;
+    }}
     </style>
 </head>
+
 <body>
     <div class="tab-buttons">
         <button class="tab-button" onclick="openTab(event, 'slideshow')">Slideshow</button>
@@ -113,16 +222,33 @@
 
     <div id="interactive" class="tab active">
         <div class="container">
-            <h1>🛑 Levels of Pain and How They Affect You</h1>
+            <section class="hook">
+                <div class="hook-content">
+                    <h1>What if AI decides your pain isn't real?</h1>
+                    <p>Explore how AI's hidden biases and uncertainties impact opioid prescriptions across different
+                        demographics.</p>
+                </div>
+            </section>
+
+
+            <h1>🛑 How Painful is Your Pain?</h1>
             <div class="summary">
                 <p>
-                    The pain index you see here is a familiar scale used in healthcare—from 0 indicating no pain to 10 representing the worst pain imaginable. This scale helps capture a patient's subjective experience of pain in a simple, yet powerful way.
+                    The pain index you see here is a familiar scale used in healthcare—from 0 indicating no pain to 10
+                    representing the worst pain imaginable. This scale helps capture a patient's subjective experience
+                    of pain in a simple, yet powerful way.
                 </p>
                 <p>
-                    In our project, this index is more than just a number. It serves as the starting point for exploring how large language models (LLMs) respond to opioid management across various medical contexts, such as acute cancer pain and chronic noncancer pain. By establishing a baseline measure of pain, we can compare how these responses might differ when the context changes.
+                    In our project, this index is more than just a number. It serves as the starting point for exploring
+                    how large language models (LLMs) respond to opioid management across various medical contexts, such
+                    as acute cancer pain and chronic noncancer pain. By establishing a baseline measure of pain, we can
+                    compare how these responses might differ when the context changes.
                 </p>
                 <p>
-                    As you navigate through the visualizations, consider how the subjective nature of pain assessment intersects with the AI's confidence—or uncertainty—in recommending treatments. This comparison may reveal underlying trends or biases in opioid management, helping us better understand the interplay between reported pain levels and clinical decision-making.
+                    As you navigate through the visualizations, consider how the subjective nature of pain assessment
+                    intersects with the AI's confidence—or uncertainty—in recommending treatments. This comparison may
+                    reveal underlying trends or biases in opioid management, helping us better understand the interplay
+                    between reported pain levels and clinical decision-making.
                 </p>
             </div>
             <div class="pain_index"></div>
@@ -130,11 +256,14 @@
         <div class="container">
             <h1>🛑 AI's Uncertainty in Medicine: Confidence for Some, Hesitation for Others</h1>
             <div id="radialTooltip" style="position: absolute; opacity: 0;"></div>
-            <div class="tooltip">Confidence<span class="tooltiptext">AI assigns a high probability to a decision.</span></div>
-            <div class="tooltip">Hesitation<span class="tooltiptext">AI is uncertain, spreading probability between options.</span></div>
+            <div class="tooltip">Confidence<span class="tooltiptext">AI assigns a high probability to a decision.</span>
+            </div>
+            <div class="tooltip">Hesitation<span class="tooltiptext">AI is uncertain, spreading probability between
+                    options.</span></div>
             <div class="narrative">
                 <p><strong>Imagine you're a patient, waiting for an AI system to decide your treatment.</strong></p>
-                <p>The AI isn't just making decisions—it's hesitating. Sometimes, that hesitation reflects fairness. Other times, it exposes bias.</p>
+                <p>The AI isn't just making decisions—it's hesitating. Sometimes, that hesitation reflects fairness.
+                    Other times, it exposes bias.</p>
             </div>
             <div class="controls">
                 <p class="control-instruction">🎯 Select filters to explore how AI uncertainty changes:</p>
@@ -173,6 +302,25 @@
                     <svg id="heatmap"></svg>
                 </div>
             </div>
+
+            <section class="key-insights">
+                <h2>What We Found</h2>
+                <div class="insights-grid">
+                    <div class="insight-card">
+                        <h3>AI Confidence Varies</h3>
+                        <p>AI shows higher confidence in prescribing opioids for acute pain compared to chronic pain.</p>
+                    </div>
+                    <div class="insight-card">
+                        <h3>Demographic Bias</h3>
+                        <p>Certain racial and gender groups experience higher uncertainty in AI decisions.</p>
+                    </div>
+                    <div class="insight-card">
+                        <h3>Real-World Impact</h3>
+                        <p>AI uncertainty can lead to under-treatment or over-treatment in critical healthcare scenarios.</p>
+                    </div>
+                </div>
+            </section>
+
             <div class="real-world">
                 <h2>Uncertainty in the Real World</h2>
                 <p>AI isn't just theoretical—it's being used in hospitals, finance, and law enforcement.</p>
@@ -229,7 +377,7 @@
             </div>
             <div class="mySlides fade">
                 <h2>Meet Your Character!</h2>
-                
+
                 <div class="character">
                     <div class="head">
                         <div class="hair"></div>
@@ -246,7 +394,7 @@
                     <div class="leg left-leg"></div>
                     <div class="leg right-leg"></div>
                 </div>
-                
+
                 <p id="characterDescription"></p>
             </div>
             <div class="mySlides fade">
@@ -271,9 +419,10 @@
                                 <div class="lace lace-left"></div>
                                 <div class="lace lace-right"></div>
                             </div>
-                        </div>  
+                        </div>
                         <div class="speech-bubble">
-                            <p id="characterDescription">Your pain is too great for regular pain blockers, I may need to prescribe you with something stronger.</p>
+                            <p id="characterDescription">Your pain is too great for regular pain blockers, I may need to
+                                prescribe you with something stronger.</p>
                         </div>
                         <div class="doctor-body"></div>
                         <div class="arm doctor-left-arm"></div>
@@ -305,9 +454,10 @@
                                 <div class="lace lace-left"></div>
                                 <div class="lace lace-right"></div>
                             </div>
-                        </div>  
+                        </div>
                         <div class="speech-bubble">
-                            <p id="characterDescription">I just have to confirm with our AI diagnostics and medication software.</p>
+                            <p id="characterDescription">I just have to confirm with our AI diagnostics and medication
+                                software.</p>
                         </div>
                         <div class="doctor-body"></div>
                         <div class="arm doctor-left-arm"></div>
@@ -346,7 +496,7 @@
                                 <div class="lace lace-left"></div>
                                 <div class="lace lace-right"></div>
                             </div>
-                        </div>  
+                        </div>
                         <div class="doctor-body"></div>
                         <div class="arm doctor-left-arm"></div>
                         <div class="arm doctor-right-arm"></div>
@@ -358,7 +508,8 @@
                             <p>AI</p>
                         </div>
                         <div class="speech-bubble" style="transform: translate(30px, -100px);">
-                            <p id="characterDescription">Based on patient's current condition and medical history, I have to reject the use of opioids in this context.</p>
+                            <p id="characterDescription">Based on patient's current condition and medical history, I
+                                have to reject the use of opioids in this context.</p>
                         </div>
                         <div class="computer-body"></div>
                         <div class="stand"></div>
@@ -386,9 +537,10 @@
                                 <div class="lace lace-left"></div>
                                 <div class="lace lace-right"></div>
                             </div>
-                        </div>  
+                        </div>
                         <div class="speech-bubble">
-                            <p id="characterDescription">Oh then you are probably fine. You know, AI is always correct.</p>
+                            <p id="characterDescription">Oh then you are probably fine. You know, AI is always correct.
+                            </p>
                         </div>
                         <div class="doctor-body"></div>
                         <div class="arm doctor-left-arm"></div>
@@ -406,7 +558,7 @@
                 </div>
             </div>
             <div class="mySlides fade">
-                
+
             </div>
             <div class="button-group">
                 <a class="prev" onclick="plusSlides(-1)">&#10094; Previous</a>
@@ -436,4 +588,5 @@
     <script src="./js/slideshow.js"></script>
     <script src="./js/response.js"></script>
 </body>
+
 </html>
